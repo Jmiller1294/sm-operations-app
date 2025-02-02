@@ -1,0 +1,47 @@
+.smallCard{ 
+  display: flex;
+  height: 80px;
+  width: 20%;
+  background: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  padding: 20px; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  font-size: 1.2vw;
+}
+
+.mediumCard{ 
+  display: flex;
+  height: 220px;
+  width: 20%;
+  background: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  padding: 20px; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  font-size: 1.2vw;
+}
+
+.largeCard{ 
+  display: flex;
+  height: 220px;
+  width: 32.5%;
+  background: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  padding: 20px; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  font-size: 1.2vw;
+}
+
+.xlargeCard{ 
+  display: flex;
+  height: 220px;
+  width: 45.3%;
+  background: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  padding: 20px; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  font-size: 1.2vw;
+}

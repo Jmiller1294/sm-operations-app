@@ -1,16 +1,20 @@
-import Navbar from "./components/Navbar";
 import { 
   Route, 
   createBrowserRouter, 
   createRoutesFromElements,
   RouterProvider
 } from 'react-router-dom';
-import HomePage from "./pages/HomePage";
 import MainLayout from "./layouts/MainLayout";
+import AppointmentsPage from "./pages/AppointmentsPage";
+import DashboardPage from './pages/Homepage/DashboardPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' index element={<MainLayout />} />)
+    <Route path='/' element={<MainLayout />}>
+      <Route index element={<DashboardPage />} />
+      <Route path='/appointments' element={<AppointmentsPage />} />
+    </Route>
+  )
 );
 
 const App = () => {

@@ -1,0 +1,26 @@
+.mainContainer{
+  background-color: red;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 90vh; 
+  width: 100%;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding: 20px 20px 0 20px;
+}
+
+.cardContainer1{
+  flex-direction: column; 
+  height: auto; 
+  width: 70%; 
+  background-color: blue; 
+  margin-right: 20px;
+}
+
+.cardContainer2{
+  flex-direction: column; 
+  height: auto; 
+  width: 25%; 
+  background-color: blue;
+}

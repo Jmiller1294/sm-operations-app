@@ -1,7 +1,18 @@
 :root {
+  background-color: #f5f5f5;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 body {
   margin: 0
+}
+
+.row{
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between;
+  height: auto; 
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 

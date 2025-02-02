@@ -1,12 +1,16 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header/Header";
 
 const MainLayout = () => {
   return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
+    <div style={{display: 'flex', flexDirection: 'row', height: '100vh', width: '100%', boxSizing: 'border-box'}}>
+      <Sidebar />
+      <div style={{ width: '100%', height: 'fit-content', boxSizing: 'border-box'}}>
+        <Header />
+        <Outlet />
+      </div>
+    </div>
   )
 }
 
