@@ -1,11 +1,10 @@
 import DashboardCard from "../../components/DashboardCard/DashboardCard"
 import styles from './DashboardPage.module.css';
-import '../../index.css';
 
 const DashboardPage = () => {
   return (
     <div className={styles.mainContainer}>
-      <div className={'row'}>
+      <div className={styles.row}>
         <DashboardCard size={'small'}>
           <div>Jobs Today</div>
         </DashboardCard>
@@ -19,7 +18,7 @@ const DashboardPage = () => {
           <div>Revenue Overview</div>
         </DashboardCard>
       </div>
-      <div className={'row'}>
+      <div className={styles.row}>
         <DashboardCard size={'large'}>
           <div>Upcoming Jobs & Schedule</div>
         </DashboardCard>
@@ -30,7 +29,7 @@ const DashboardPage = () => {
           Apps
         </DashboardCard>
       </div>
-      <div className={'row'}>
+      <div className={styles.row}>
         <DashboardCard size={'xlarge'}>
           Revenue & Financial Overview
         </DashboardCard>

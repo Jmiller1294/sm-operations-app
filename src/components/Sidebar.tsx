@@ -19,7 +19,7 @@ const Sidebar = () => {
   ]
 
   return (
-    <div style={{backgroundColor: 'white', width: '12%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '100px 20px 60px 20px', justifyContent: 'space-between'}}>
+    <div style={{backgroundColor: 'white', width: '12%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '90px 20px 60px 20px', justifyContent: 'space-between'}}>
       {navList.map((item:any) => (
         <Link 
           style={{display: 'flex', flexDirection: 'row', width: '100%', height: '2.2rem', alignItems: 'center', color: '#FFFFFF', backgroundColor: 'red'}}

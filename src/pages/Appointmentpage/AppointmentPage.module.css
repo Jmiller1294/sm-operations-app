@@ -1,0 +1,96 @@
+.row{
+  display: flex; 
+  flex-direction: row; 
+  height: fit-content; 
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  background-color: red;
+  padding: 10px;
+  align-items: center;
+}
+
+.toggleContainer {
+  display: inline-block;
+  position: relative;
+}
+
+.toggleInput {
+  display: none; /* Hide the checkbox */
+}
+
+.toggleLabel {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-around;
+  width: 80px;
+  height: 42px;
+  background: #ddd;
+  border-radius: 25px;
+  border: 3px solid #ddd; 
+  cursor: pointer;
+  transition: background 0.3s ;
+  box-sizing: border-box;
+}
+
+.toggleLabel::before {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0%;
+  border-radius: 20px;
+  background: white;
+  transition: all 0.3s;
+}
+
+.toggleLabel span {
+  text-align: center;
+  z-index: 1;
+}
+
+/* Checked State */
+.toggleInput:checked + .toggleLabel::before {
+  left: 50%;
+}
+
+.toggleInput:checked + .toggleLabel span:first-child {
+  color: rgb(52, 72, 99);
+  transition: color 0.3s;
+}
+
+.toggleInput:checked + .toggleLabel span:last-child {
+  color: rgb(52, 72, 99);
+  transition: color 0.3s;
+}
+
+.IconContainer{
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  width: 8%;
+  box-sizing: border-box;
+  border-radius: 35px;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.todayButton{
+  display: flex;
+  flex-direction: row;
+  height: 20px;
+  width: 8%;
+}
+
+.buttonsContainer{
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  height: 40px;
+  width: 40%;
+  background-color: green;
+}
+
+
+
