@@ -1,18 +1,31 @@
+.container{
+  width: 100%;
+  height: 90vh;
+  overflow: auto;
+}
+
+.header{
+  overflow: hidden;
+  position: fixed;
+  top: 68px; /* Position the navbar at the top of the page */
+  width: 86vw; /* Full width */
+  height: fit-content;
+}
+
 .row{
   display: flex; 
   flex-direction: row; 
   height: fit-content; 
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 20px;
   background-color: red;
-  padding: 10px;
   align-items: center;
 }
 
 .toggleContainer {
   display: inline-block;
   position: relative;
+  padding: 16px;
 }
 
 .toggleInput {
@@ -40,12 +53,12 @@
   width: 50%;
   height: 100%;
   left: 0%;
-  border-radius: 20px;
+  border-radius: 25px;
   background: white;
   transition: all 0.3s;
 }
 
-.toggleLabel span {
+.toggleLabel span{
   text-align: center;
   z-index: 1;
 }
@@ -69,28 +82,161 @@
   display: flex;
   flex-direction: row;
   height: 40px;
-  width: 8%;
+  width: 10%;
   box-sizing: border-box;
   border-radius: 35px;
   justify-content: space-evenly;
   align-items: center;
+  padding: 10px;
 }
 
 .todayButton{
   display: flex;
   flex-direction: row;
-  height: 20px;
-  width: 8%;
+  height: 40px;
+  width: 16%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.appointmentButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 35%;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 550;
 }
 
 .buttonsContainer{
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   margin-left: auto;
   height: 40px;
-  width: 40%;
+  width: 48%;
   background-color: green;
+  font-size: 0.9rem;
+  font-weight: 550;
+  padding: 10px;
 }
+
+.verticalLine{
+  height: 26px;
+  border-left: 1.2px solid black;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.dateText{
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.toggleCon {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 210px;
+  height: 28px;
+  background: #ddd;
+  border-radius: 25px;
+  padding: 5px;
+}
+
+.toggleIn {
+  display: none;
+}
+
+.toggleLab {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.toggleSlider {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 70px;
+  height: 32px;
+  background: #4caf50;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+}
+
+/* Move the slider based on the position */
+.toggleSlider[data-position="center"] {
+  left: 74px;
+}
+
+.toggleSlider[data-position="right"] {
+  left: 146px;
+}
+
+.employeeInfoCon{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  border-top: 1.2px solid black;
+}
+
+.employeesCon{
+  display: flex;
+  flex-direction: row;
+  height: 52px;
+  width: 93%;
+}
+
+.employeeCon{
+  height: 52px;
+  width: 33.33%;
+  border-right: 1.2px solid black;
+  box-sizing: border-box;
+  font-weight: 600;
+  padding: 18px;
+}
+
+.timeTextCon{
+  height: 52px;
+  width: 7%;
+  border-right: 1.2px solid black;
+  box-sizing: border-box;
+  font-weight: 600;
+  padding: 18px;
+}
+
+.calendarCon{
+  width: 100%;
+  height: 1000px;
+  overflow-y: scroll;
+  background-color: blue;
+  margin-top: 120px;
+}
+
+.timesContainer{
+  height: 100%;
+  width: 10%;
+  background-color: red;
+}
+
+
+
+
+
+
 
 
 
