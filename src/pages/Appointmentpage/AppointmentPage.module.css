@@ -1,15 +1,19 @@
 .container{
   width: 100%;
   height: 90vh;
-  overflow: auto;
+  overflow-y: scroll;
+  z-index: 1;
 }
 
 .header{
-  overflow: hidden;
   position: fixed;
   top: 68px; /* Position the navbar at the top of the page */
   width: 86vw; /* Full width */
   height: fit-content;
+  z-index: 6;
+  background: #ffffff;
+  border-top: 1px solid #e7e7e7;
+  border-left: 1px solid #e7e7e7;
 }
 
 .row{
@@ -18,7 +22,6 @@
   height: fit-content; 
   width: 100%;
   box-sizing: border-box;
-  background-color: red;
   align-items: center;
 }
 
@@ -38,12 +41,12 @@
   align-items: center;
   justify-content: space-around;
   width: 80px;
-  height: 42px;
-  background: #ddd;
+  height: 36px;
+  background: #efefef;
   border-radius: 25px;
-  border: 3px solid #ddd; 
+  border: 3px solid #e7e7e7; 
   cursor: pointer;
-  transition: background 0.3s ;
+  transition: background 0.3s;
   box-sizing: border-box;
 }
 
@@ -69,22 +72,21 @@
 }
 
 .toggleInput:checked + .toggleLabel span:first-child {
-  color: rgb(52, 72, 99);
+  color: #ffffff;
   transition: color 0.3s;
 }
 
 .toggleInput:checked + .toggleLabel span:last-child {
-  color: rgb(52, 72, 99);
+  color: #ffffff;
   transition: color 0.3s;
 }
 
 .IconContainer{
   display: flex;
   flex-direction: row;
-  height: 40px;
+  height: 32px;
   width: 10%;
   box-sizing: border-box;
-  border-radius: 35px;
   justify-content: space-evenly;
   align-items: center;
   padding: 10px;
@@ -93,12 +95,12 @@
 .todayButton{
   display: flex;
   flex-direction: row;
-  height: 40px;
+  height: 36px;
   width: 16%;
   justify-content: center;
   align-items: center;
   border-radius: 25px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
@@ -107,11 +109,12 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  width: 35%;
+  height: 36px;
+  width: 28%;
   border-radius: 25px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 550;
+  border: none;
 }
 
 .buttonsContainer{
@@ -121,7 +124,6 @@
   margin-left: auto;
   height: 40px;
   width: 48%;
-  background-color: green;
   font-size: 0.9rem;
   font-weight: 550;
   padding: 10px;
@@ -129,7 +131,7 @@
 
 .verticalLine{
   height: 26px;
-  border-left: 1.2px solid black;
+  border-left: 1.2px solid #c4c4c4;;
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -144,32 +146,41 @@
   align-items: center;
   position: relative;
   width: 210px;
-  height: 28px;
-  background: #ddd;
+  height: 34px;
+  background: #efefef;
   border-radius: 25px;
   padding: 5px;
+  box-sizing: border-box;
+  margin-top: 2px;
 }
 
 .toggleIn {
   display: none;
 }
 
+.toggleLab::before{
+  content: "";
+  color: red;
+}
+
 .toggleLab {
   flex: 1;
   text-align: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   position: relative;
   z-index: 2;
 }
+
+
 
 .toggleSlider {
   position: absolute;
   top: 3px;
   left: 4px;
   width: 70px;
-  height: 32px;
-  background: #4caf50;
+  height: 28px;
+  background: rgb(52, 72, 99);
   border-radius: 25px;
   transition: all 0.3s ease-in-out;
   z-index: 1;
@@ -177,11 +188,11 @@
 
 /* Move the slider based on the position */
 .toggleSlider[data-position="center"] {
-  left: 74px;
+  left: 70px;
 }
 
 .toggleSlider[data-position="right"] {
-  left: 146px;
+  left: 136px;
 }
 
 .employeeInfoCon{
@@ -190,7 +201,7 @@
   align-items: center;
   height: 50px;
   width: 100%;
-  border-top: 1.2px solid black;
+  border-top: 1.2px solid #c4c4c4;
 }
 
 .employeesCon{
@@ -203,7 +214,8 @@
 .employeeCon{
   height: 52px;
   width: 33.33%;
-  border-right: 1.2px solid black;
+  border-right: 1.2px solid #ddd;
+  border-bottom: 1.2px solid #ddd;
   box-sizing: border-box;
   font-weight: 600;
   padding: 18px;
@@ -211,25 +223,11 @@
 
 .timeTextCon{
   height: 52px;
-  width: 7%;
-  border-right: 1.2px solid black;
+  width: 8.15%;
+  border-right: 1.2px solid #ddd;
   box-sizing: border-box;
   font-weight: 600;
   padding: 18px;
-}
-
-.calendarCon{
-  width: 100%;
-  height: 1000px;
-  overflow-y: scroll;
-  background-color: blue;
-  margin-top: 120px;
-}
-
-.timesContainer{
-  height: 100%;
-  width: 10%;
-  background-color: red;
 }
 
 
