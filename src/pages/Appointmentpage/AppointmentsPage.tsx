@@ -80,7 +80,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "July 2, 2013",
+    date: "February 9, 2025",
     startTime: "2:00pm",
     endTime: "5:15pm",
     dateCreated: "June 17, 2013",
@@ -217,15 +217,24 @@ const appointments = [
   },
 ]
 
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 const AppointmentsPage = () => {
+  const d = new Date();
   const [isOn, setIsOn] = useState(false);
   const [position, setPosition] = useState("left");
   const [calendarType, setCalendarType] = useState('day');
+  const [day, setDay] = useState(d.getDate());
+  const [month, setMonth] = useState(monthNames[d.getMonth()]);
+  const [year, setYear] = useState(d.getFullYear());
+  
 
   const renderCalendar = () => {
     switch (calendarType) {
       case 'day':
-        return <DayViewCalendar appointments={appointments} />
+        return <DayViewCalendar appointments={appointments} day={day} month={month} year={year} />
       case 'week':
         return <WeekViewCalendar />
       case 'month':
@@ -233,7 +242,48 @@ const AppointmentsPage = () => {
       default:
         return null;
     }
-};
+  };
+
+  const increaseDate = () => {
+    const days = daysInMonth(year, monthNames.indexOf(month) + 1);
+    if(day === days) {
+      setDay(1);
+      setMonth(monthNames[monthNames.indexOf(month) + 1]);
+      return;
+    }
+    setDay(day + 1);
+  }
+
+  const decreaseDate = () => {
+    const days = daysInMonth(year, monthNames.indexOf(month));
+    if(month === 'January' && day < 2) {
+      setDay(days);
+      setMonth('December');
+      setYear(year - 1);
+      return;
+    }
+    if(day < 2) {
+      setDay(days);
+      setMonth(monthNames[monthNames.indexOf(month) - 1]);
+      return;
+    }
+    setDay(day - 1);
+  }
+
+  const getCurrentDate = () => {
+    setDay(d.getDate());
+    setMonth(monthNames[d.getMonth()]);
+    setYear(d.getFullYear());
+  }
+
+  const isToday = () => {
+    if(day === d.getDate() && month === monthNames[d.getMonth()] && year === d.getFullYear()) {
+      return 'Today'
+    }
+    return null;
+  }
+
+  const daysInMonth = (year:number, month:number) => new Date(year, month, 0).getDate();
 
   return (
     <div className={styles.container}>
@@ -254,12 +304,12 @@ const AppointmentsPage = () => {
           </div>
           <div className={styles.verticalLine}></div>
           <div className={styles.IconContainer}>
-            <span className={styles.calendarArrows}><IoIosArrowBack size={24} /></span>
-            <span className={styles.calendarArrows}><IoIosArrowForward size={24} /></span>
+            <span className={styles.calendarArrows} onClick={() => decreaseDate()}><IoIosArrowBack size={24} /></span>
+            <span className={styles.calendarArrows} onClick={() => increaseDate()}><IoIosArrowForward size={24} /></span>
           </div>
-          <span className={styles.dateText}>Mar 24,2021</span>
+          <span className={styles.dateText}>{month} {day}, {year} <span className={styles.todayText}>{isToday()}</span></span>
           <div className={styles.buttonsContainer}>
-            <button className={styles.todayButton}>Today</button>
+            <button className={styles.todayButton} onClick={() => getCurrentDate()}>Today</button>
             <div className={styles.toggleCon}>
               <input
                 type="radio"

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
 import { BsThreeDots } from "react-icons/bs";
 
-const DayViewCalendar = ({appointments}:any) => {
+const DayViewCalendar = ({appointments, day, month, year}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const numbers = Array.from(Array(24).keys()); 
 
@@ -67,7 +67,7 @@ const DayViewCalendar = ({appointments}:any) => {
         ))}
       </div>
       <div className={styles.col}>
-        {appointments.filter((app:any) => app.calendarID === 1).map((appointment:any) => (
+        {appointments.filter((app:any) => app.calendarID === 1 && app.date === `${month} ${day}, ${year}`).map((appointment:any) => (
           <div
             key={appointment.id}
             className={styles.appointment}
