@@ -3,28 +3,10 @@ import styles from './AppointmentPage.module.css';
 import { FaList, FaRegCalendarAlt } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
-import { IoPersonCircleSharp } from "react-icons/io5";
 import DayViewCalendar from '../../components/Calendar/DayViewCalendar';
 import WeekViewCalendar from '../../components/Calendar/WeekViewCalendar';
 import MonthViewCalendar from '../../components/Calendar/MonthViewCalendar';
 
-const employees = [
-  {
-    name: 'Millieann',
-    avatar: <IoPersonCircleSharp />,
-    hours: 4
-  },
-  {
-    name: 'Justin',
-    avatar: <IoPersonCircleSharp />,
-    hours: 6
-  },
-  {
-    name: 'Shine Masters',
-    avatar: <IoPersonCircleSharp />,
-    hours: 8
-  }
-]
 
 const appointments = [
   {
@@ -174,7 +156,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "July 2, 2013",
+    date: "February 2, 2025",
     startTime: "11:15am",
     endTime: "11:15am",
     dateCreated: "June 17, 2013",
@@ -236,9 +218,9 @@ const AppointmentsPage = () => {
       case 'day':
         return <DayViewCalendar appointments={appointments} day={day} month={month} year={year} />
       case 'week':
-        return <WeekViewCalendar />
+        return <WeekViewCalendar appointments={appointments} day={day} month={month} year={year} />
       case 'month':
-        return <MonthViewCalendar />
+        return <MonthViewCalendar appointments={appointments} day={day} month={month} year={year}/>
       default:
         return null;
     }
@@ -343,26 +325,9 @@ const AppointmentsPage = () => {
             <button className={styles.appointmentButton}><FaPlus />New Appointment</button>
           </div>
         </div>
-        <div className={styles.row}>
-          <div className={styles.employeeInfoCon}>
-            <div className={styles.timeTextCon}>
-              <span>Time</span>
-            </div>
-            <div className={styles.employeesCon}>
-              {employees.map((employee:any, index: number) => (
-                <div 
-                  key={index}
-                  className={styles.employeeCon}
-                >
-                  {employee.name}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
       <>
-       <div>{renderCalendar()}</div>;
+       <div>{renderCalendar()}</div>
       </>
     </div>
   )

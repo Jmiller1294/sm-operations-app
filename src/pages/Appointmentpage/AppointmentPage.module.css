@@ -84,12 +84,12 @@
 .IconContainer{
   display: flex;
   flex-direction: row;
-  height: 32px;
-  width: 10%;
+  height: fit-content;
+  width: 8%;
   box-sizing: border-box;
-  justify-content: space-evenly;
+  margin-top: 5px;
   align-items: center;
-  padding: 10px;
+  
 }
 
 .todayButton{
@@ -115,25 +115,28 @@
   font-size: 0.8rem;
   font-weight: 550;
   border: none;
+  box-sizing: border-box;
 }
 
 .buttonsContainer{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
   margin-left: auto;
   height: 40px;
-  width: 48%;
+  width: 47%;
   font-size: 0.9rem;
   font-weight: 550;
   padding: 10px;
+  box-sizing: border-box;
 }
 
 .verticalLine{
   height: 26px;
   border-left: 1.2px solid #c4c4c4;;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .dateText{
@@ -194,31 +197,7 @@
   left: 136px;
 }
 
-.employeeInfoCon{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 50px;
-  width: 100%;
-  border-top: 1.2px solid #c4c4c4;
-}
 
-.employeesCon{
-  display: flex;
-  flex-direction: row;
-  height: 52px;
-  width: 93%;
-}
-
-.employeeCon{
-  height: 52px;
-  width: 33.33%;
-  border-right: 1.2px solid #ddd;
-  border-bottom: 1.2px solid #ddd;
-  box-sizing: border-box;
-  font-weight: 600;
-  padding: 18px;
-}
 
 .timeTextCon{
   height: 52px;

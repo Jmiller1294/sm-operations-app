@@ -44,11 +44,19 @@
   margin-top: 16px;
 }
 
+.small-col{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 14%;
+  margin-top: 16px;
+}
+
 .row{
   display: flex;
   flex-direction:row;
   height: 60px;
-  border-top: 1px solid #c4c4c4;;
+  border-top: 1px solid #c4c4c4;
   border-right: 1px solid #ccc;
 }
 
@@ -66,4 +74,62 @@
 
 .appointmentType{
   margin-right: auto;
+}
+
+.employeeInfoCon{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: fit-content;
+  width: 100%;
+  position: fixed;
+  top: 136px; /* Position the navbar at the top of the page */
+  height: fit-content;
+  z-index: 6;
+  background: #ffffff;
+  border-top: 1px solid #e7e7e7;
+  border-left: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;;
+}
+
+.employeesCon{
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  width: 93%;
+}
+
+.employeeCon{
+  height: 52px;
+  width: 28.2%;
+  border-right: 1.2px solid #ddd;
+  box-sizing: border-box;
+  font-weight: 600;
+  padding: 18px;
+}
+
+.timeTextCon{
+  height: 52px;
+  width: 6.5%;
+  border-right: 1.2px solid #ddd;
+  box-sizing: border-box;
+  font-weight: 600;
+  padding: 18px;
+  text-align: center;
+}
+
+.DaysCon{
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  width: 79%;
+}
+
+.DayCon{
+  height: 52px;
+  width: 14.4%;
+  border-right: 1.2px solid #ddd;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 18px;
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 
-const MonthViewCalendar = () => {
+const MonthViewCalendar = ({appointments, day, month, year}:any) => {
   return (
-    <div>MonthViewCalendar</div>
+    <>
+    </>
   )
 }
 
