@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
+import { BsThreeDots } from "react-icons/bs";
 
 const DayViewCalendar = ({appointments}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
@@ -75,7 +76,14 @@ const DayViewCalendar = ({appointments}:any) => {
               height: getTimeSlotHeight(appointment),
             }}
           >
-            {appointment.type}
+            <div className={styles.appointmentInfoCon}>
+              <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+              <span className={styles.appointmentType}>{appointment.type}</span>
+              <BsThreeDots fontSize={24}/>
+            </div>
+            <div>
+              {appointment.startTime} - {appointment.endTime}
+            </div>
           </div>
         ))}
         {numbers.map((index) => (
@@ -92,7 +100,13 @@ const DayViewCalendar = ({appointments}:any) => {
               height: getTimeSlotHeight(appointment),
             }}
           >
-            {appointment.type}
+            <div className={styles.appointmentInfoCon}>
+              <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+              <div>{appointment.type}</div>
+            </div>
+            <div>
+              {appointment.startTime} - {appointment.endTime}
+            </div>
           </div>
         ))}
         {numbers.map((index) => (
@@ -109,7 +123,13 @@ const DayViewCalendar = ({appointments}:any) => {
               height: getTimeSlotHeight(appointment),
             }}
           >
-            {appointment.type}
+            <div className={styles.appointmentInfoCon}>
+              <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+              <div>{appointment.type}</div>
+            </div>
+            <div>
+              {appointment.startTime} - {appointment.endTime}
+            </div>
           </div>
         ))}
         {numbers.map((index) => (

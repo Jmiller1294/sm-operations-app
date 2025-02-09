@@ -173,7 +173,6 @@
 }
 
 
-
 .toggleSlider {
   position: absolute;
   top: 3px;
@@ -228,6 +227,19 @@
   box-sizing: border-box;
   font-weight: 600;
   padding: 18px;
+}
+
+.calendarArrows{
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.calendarArrows:hover{
+  padding: 10px;
+  background: #efefef;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 
