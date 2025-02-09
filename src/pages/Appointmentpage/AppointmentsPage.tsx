@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 import DayViewCalendar from '../../components/Calendar/DayViewCalendar';
 import WeekViewCalendar from '../../components/Calendar/WeekViewCalendar';
 import MonthViewCalendar from '../../components/Calendar/MonthViewCalendar';
+import Modal from '../../components/Modal/Modal';
 
 
 const appointments = [
@@ -211,7 +212,8 @@ const AppointmentsPage = () => {
   const [day, setDay] = useState(d.getDate());
   const [month, setMonth] = useState(monthNames[d.getMonth()]);
   const [year, setYear] = useState(d.getFullYear());
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const renderCalendar = () => {
     switch (calendarType) {
@@ -266,6 +268,11 @@ const AppointmentsPage = () => {
   }
 
   const daysInMonth = (year:number, month:number) => new Date(year, month, 0).getDate();
+
+  const toggleModal = () => {
+    console.log('toggled')
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div className={styles.container}>
@@ -322,13 +329,17 @@ const AppointmentsPage = () => {
               <label htmlFor="right" className={styles.toggleLab}><span style={position === "right" ? {color: '#ffffff'} : {color: '#000000'}}>Month</span></label>
               <div className={styles.toggleSlider} data-position={position}></div>
             </div>
-            <button className={styles.appointmentButton}><FaPlus />New Appointment</button>
+            <button onClick={() => toggleModal()}  className={styles.appointmentButton}><FaPlus />New Appointment</button>
           </div>
         </div>
       </div>
       <>
-       <div>{renderCalendar()}</div>
+       <div onClick={() => setIsModalOpen(false)}>{renderCalendar()}</div>
       </>
+      <Modal isOpen={isModalOpen} onClose={toggleModal}>
+        <h2>Side Modal Content</h2>
+        <p>This is the content of the side modal.</p>
+      </Modal>
     </div>
   )
 }

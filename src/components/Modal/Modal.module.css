@@ -1,0 +1,28 @@
+.side-modal {
+  position: fixed;
+  top: 0;
+  right: -610px; /* Initially hidden off-screen */
+  width: 600px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  transition: right 0.3s ease-in-out; /* Smooth transition for opening/closing */
+  z-index: 1000; /* Ensure it's on top of other content */
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.open{
+  right: 0; /* Slide in when open */
+}
+
+.modal-content {
+    background-color: white;
+    height: 100%;
+    padding: 20px;
+}
+
+.close-button {
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
