@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './AppointmentPage.module.css';
 import { FaList, FaRegCalendarAlt } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -7,6 +7,9 @@ import DayViewCalendar from '../../components/Calendar/DayViewCalendar';
 import WeekViewCalendar from '../../components/Calendar/WeekViewCalendar';
 import MonthViewCalendar from '../../components/Calendar/MonthViewCalendar';
 import Modal from '../../components/Modal/Modal';
+import { addDays, addWeeks, eachDayOfInterval, format, startOfWeek, subDays, subWeeks } from 'date-fns';
+import { IoPersonCircleSharp } from "react-icons/io5";
+import Header from '../../components/Calendar/Header';
 
 
 const appointments = [
@@ -63,7 +66,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "February 9, 2025",
+    date: "February 11, 2025",
     startTime: "2:00pm",
     endTime: "5:15pm",
     dateCreated: "June 17, 2013",
@@ -110,7 +113,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "July 2, 2013",
+    date: "February 12, 2025",
     startTime: "1:00am",
     endTime: "11:15am",
     dateCreated: "June 17, 2013",
@@ -204,75 +207,108 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
+const employees = [
+  {
+    name: 'Millieann',
+    avatar: <IoPersonCircleSharp />,
+    hours: 4
+  },
+  {
+    name: 'Justin',
+    avatar: <IoPersonCircleSharp />,
+    hours: 6
+  },
+  {
+    name: 'Shine Masters',
+    avatar: <IoPersonCircleSharp />,
+    hours: 8
+  }
+]
+
+
+
 const AppointmentsPage = () => {
   const d = new Date();
   const [isOn, setIsOn] = useState(false);
   const [position, setPosition] = useState("left");
   const [calendarType, setCalendarType] = useState('day');
-  const [day, setDay] = useState(d.getDate());
-  const [month, setMonth] = useState(monthNames[d.getMonth()]);
-  const [year, setYear] = useState(d.getFullYear());
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [date, setDate] = useState('');
+  const [showToday, setShowToday] = useState(true);
+  const [daysOfWeek, setDaysOfWeek] = useState<any>([]);
 
+  useEffect(() => {
+    setStartDate('day');
+  }, [])
 
   const renderCalendar = () => {
     switch (calendarType) {
       case 'day':
-        return <DayViewCalendar appointments={appointments} day={day} month={month} year={year} />
+        return <DayViewCalendar appointments={appointments} date={date} />
       case 'week':
-        return <WeekViewCalendar appointments={appointments} day={day} month={month} year={year} />
+        return <WeekViewCalendar appointments={appointments} /> 
       case 'month':
-        return <MonthViewCalendar appointments={appointments} day={day} month={month} year={year}/>
+        return <MonthViewCalendar appointments={appointments} />
       default:
         return null;
     }
   };
 
-  const increaseDate = () => {
-    const days = daysInMonth(year, monthNames.indexOf(month) + 1);
-    if(day === days) {
-      setDay(1);
-      setMonth(monthNames[monthNames.indexOf(month) + 1]);
-      return;
+  const setStartDate = (date:string) => {
+    if(date === 'day') {
+      const formattedDate = format(d, 'MMM dd, yyyy');
+      setDate(formattedDate);
     }
-    setDay(day + 1);
+    if(date === 'week') {
+      const startOfWeekDate = startOfWeek(d, { weekStartsOn: 1 });
+      const formattedDate = format(startOfWeekDate, 'MMM dd, yyyy');
+      setDate(`Week of ${formattedDate}`);
+      getDaysOfWeek(formattedDate);
+    }
   }
 
   const decreaseDate = () => {
-    const days = daysInMonth(year, monthNames.indexOf(month));
-    if(month === 'January' && day < 2) {
-      setDay(days);
-      setMonth('December');
-      setYear(year - 1);
-      return;
+    if(calendarType === 'day') {
+      const formattedDate = format(subDays(date, 1), 'MMM dd, yyyy');
+      setDate(formattedDate);
     }
-    if(day < 2) {
-      setDay(days);
-      setMonth(monthNames[monthNames.indexOf(month) - 1]);
-      return;
+    if(calendarType === 'week') {
+      const nextWeekStart = startOfWeek(subWeeks(date, 1), { weekStartsOn: 1 });
+      const formattedDate = format(nextWeekStart, 'MMM dd, yyyy');
+      setDate(`Week of ${formattedDate}`);
+      getDaysOfWeek(formattedDate);
     }
-    setDay(day - 1);
-  }
+  };
 
-  const getCurrentDate = () => {
-    setDay(d.getDate());
-    setMonth(monthNames[d.getMonth()]);
-    setYear(d.getFullYear());
-  }
-
-  const isToday = () => {
-    if(day === d.getDate() && month === monthNames[d.getMonth()] && year === d.getFullYear()) {
-      return 'Today'
+  const increaseDate = () => {
+    if(calendarType === 'day') {
+      const formattedDate = format(addDays(date, 1), 'MMM dd, yyyy');
+      setDate(formattedDate);
     }
-    return null;
-  }
-
-  const daysInMonth = (year:number, month:number) => new Date(year, month, 0).getDate();
+    if(calendarType === 'week') {
+      const nextWeekStart = startOfWeek(addWeeks(date, 1), { weekStartsOn: 1 });
+      const formattedDate = format(nextWeekStart, 'MMM dd, yyyy');
+      setDate(`Week of ${formattedDate}`);
+      getDaysOfWeek(formattedDate);
+    }
+  };
 
   const toggleModal = () => {
-    console.log('toggled')
     setIsModalOpen(!isModalOpen);
   };
+
+  const getDaysOfWeek = (currDate:string) => {
+    if(currDate.includes('Week')) {
+      currDate = date.replace('Week of ','');
+    }
+    const weekStart = startOfWeek(currDate, { weekStartsOn: 1 }); // Set week start (Monday)
+    const weekDates = eachDayOfInterval({
+      start: weekStart,
+      end: addDays(weekStart, 6) // Get the next 6 days to complete the week
+    });
+    setDaysOfWeek(weekDates);
+  }
+
 
   return (
     <div className={styles.container}>
@@ -296,9 +332,9 @@ const AppointmentsPage = () => {
             <span className={styles.calendarArrows} onClick={() => decreaseDate()}><IoIosArrowBack size={24} /></span>
             <span className={styles.calendarArrows} onClick={() => increaseDate()}><IoIosArrowForward size={24} /></span>
           </div>
-          <span className={styles.dateText}>{month} {day}, {year} <span className={styles.todayText}>{isToday()}</span></span>
+          <span className={styles.dateText}>{date}<span className={styles.todayText}> Today</span></span>
           <div className={styles.buttonsContainer}>
-            <button className={styles.todayButton} onClick={() => getCurrentDate()}>Today</button>
+            <button className={styles.todayButton} onClick={() => setStartDate('day')}>Today</button>
             <div className={styles.toggleCon}>
               <input
                 type="radio"
@@ -306,7 +342,7 @@ const AppointmentsPage = () => {
                 name="toggle"
                 className={styles.toggleIn}
                 checked={position === "left"}
-                onChange={() => {setPosition("left"), setCalendarType("day")}}
+                onChange={() => {setPosition("left"), setCalendarType("day"), setStartDate('day')}}
               />
               <label htmlFor="left" className={styles.toggleLab}><span style={position === "left" ? {color: '#ffffff'} : {color: '#000000'}}>Day</span></label>
               <input
@@ -315,7 +351,7 @@ const AppointmentsPage = () => {
                 name="toggle"
                 className={styles.toggleIn}
                 checked={position === "center"}
-                onChange={() => {setPosition("center"), setCalendarType("week")}}
+                onChange={() => {setPosition("center"), setCalendarType("week"), setStartDate("week")}}
               />
               <label htmlFor="center" className={styles.toggleLab}><span style={position === "center" ? {color: '#ffffff'} : {color: '#000000'}}>Week</span></label>
               <input
@@ -333,6 +369,7 @@ const AppointmentsPage = () => {
           </div>
         </div>
       </div>
+        <Header type={calendarType} employees={employees} daysOfWeek={daysOfWeek} />
       <>
        <div onClick={() => setIsModalOpen(false)}>{renderCalendar()}</div>
       </>

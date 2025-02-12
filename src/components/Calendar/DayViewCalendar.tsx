@@ -1,27 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "./Calendar.module.css";
 import { BsThreeDots } from "react-icons/bs";
-import { IoPersonCircleSharp } from "react-icons/io5";
+import { format } from 'date-fns';
 
-const employees = [
-  {
-    name: 'Millieann',
-    avatar: <IoPersonCircleSharp />,
-    hours: 4
-  },
-  {
-    name: 'Justin',
-    avatar: <IoPersonCircleSharp />,
-    hours: 6
-  },
-  {
-    name: 'Shine Masters',
-    avatar: <IoPersonCircleSharp />,
-    hours: 8
-  }
-]
 
-const DayViewCalendar = ({appointments, day, month, year}:any) => {
+const DayViewCalendar = ({appointments, date}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const numbers = Array.from(Array(24).keys()); 
 
@@ -77,22 +60,7 @@ const DayViewCalendar = ({appointments, day, month, year}:any) => {
   };
 
   return (
-    <>
-      <div className={styles.employeeInfoCon}>
-        <div className={styles.timeTextCon}>
-          <span>Time</span>
-        </div>
-        <div className={styles.employeesCon}>
-          {employees.map((employee:any, index: number) => (
-            <div 
-              key={index}
-              className={styles.employeeCon}
-            >
-              {employee.name}
-            </div>
-          ))}
-        </div>
-      </div>   
+    <>  
       <div className={styles.calendarContainer}>
         <div className={styles.timeColumn}>
           {timeSlots.map((time:any, index:number) => (
@@ -102,7 +70,7 @@ const DayViewCalendar = ({appointments, day, month, year}:any) => {
           ))}
         </div>
         <div className={styles.col}>
-          {appointments.filter((app:any) => app.calendarID === 1 && app.date === `${month} ${day}, ${year}`).map((appointment:any) => (
+          {date && appointments.filter((app:any) => app.calendarID === 1 && app.date === format(date, 'MMMM dd, yyyy')).map((appointment:any) => (
             <div
               key={appointment.id}
               className={styles.appointment}
@@ -126,7 +94,7 @@ const DayViewCalendar = ({appointments, day, month, year}:any) => {
           ))}
         </div>
         <div className={styles.col}>
-          {appointments.filter((app:any) => app.calendarID === 2 && app.date === `${month} ${day}, ${year}`).map((appointment:any) => (
+          {date && appointments.filter((app:any) => app.calendarID === 2 && app.date === format(date, 'MMMM dd, yyyy')).map((appointment:any) => (
             <div
               key={appointment.id}
               className={styles.appointment}
@@ -149,7 +117,7 @@ const DayViewCalendar = ({appointments, day, month, year}:any) => {
           ))}
         </div>
         <div className={styles.col}>
-          {appointments.filter((app:any) => app.calendarID === 3 && app.date === `${month} ${day}, ${year}`).map((appointment:any) => (
+          {date && appointments.filter((app:any) => app.calendarID === 3 && app.date === format(date, 'MMMM dd, yyyy')).map((appointment:any) => (
             <div
               key={appointment.id}
               className={styles.appointment}

@@ -197,17 +197,6 @@
   left: 136px;
 }
 
-
-
-.timeTextCon{
-  height: 52px;
-  width: 8.15%;
-  border-right: 1.2px solid #ddd;
-  box-sizing: border-box;
-  font-weight: 600;
-  padding: 18px;
-}
-
 .calendarArrows{
   padding: 10px;
   background: #ffffff;
