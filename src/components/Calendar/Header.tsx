@@ -8,15 +8,20 @@ const Header = ({type, employees, daysOfWeek}:any) => {
     switch (headerType) {
         case 'day':
           return(
-            <div className={styles.employeesCon}>
-              {employees.map((employee:any, index: number) => (
-                <div 
-                  key={index}
-                  className={styles.employeeCon}
-                >
-                  {employee.name}
-                </div>
-              ))}
+            <div className={styles.employeeInfoCon}>
+              <div className={styles.timeTextCon}>
+                <span>Time</span>
+              </div>
+              <div className={styles.employeesCon}>
+                {employees.map((employee:any, index: number) => (
+                  <div 
+                    key={index}
+                    className={styles.employeeCon}
+                  >
+                    {employee.name}
+                  </div>
+                ))}
+              </div>
             </div>
           );
         case 'week':
@@ -31,27 +36,19 @@ const Header = ({type, employees, daysOfWeek}:any) => {
                     key={index}
                     className={styles.DayCon}
                   >
-                    {format(day, 'EEEE, MMM dd')}
+                    {format(day, 'EEEE, MMM d')}
                   </div>
                 ))}
               </div>
             </div> 
           );
-        case 'month':
-            return <h1>Admin Dashboard</h1>;
         default:
-            return null;
+          return null;
     }
 };
 
-  return (
-    <div className={styles.employeeInfoCon}>
-        <div className={styles.timeTextCon}>
-          <span>Time</span>
-        </div>
-        {render(type)}
-      </div>
-  )
+  return <>{render(type)}</>;
+  
 }
 
 export default Header

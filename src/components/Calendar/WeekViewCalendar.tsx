@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from "./Calendar.module.css";
-import {startOfWeek, endOfWeek} from 'date-fns';
+import {startOfWeek, endOfWeek, format} from 'date-fns';
 
 
-const WeekViewCalendar = ({appointments, day, month, year}:any) => {
+const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const numbers = Array.from(Array(24).keys()); 
+  const elementRef = useRef<any>();
 
   useEffect(() => {
     createTimeSlots();
+    scrollToTime();
   },[]);
 
   const createTimeSlots = () => {
@@ -30,70 +32,228 @@ const WeekViewCalendar = ({appointments, day, month, year}:any) => {
     setTimeSlots(times);
   }
 
-  const getDate = (index:number) => {
-    let result = startOfWeek(new Date(), {weekStartsOn: 1});
-    let tomorrow = result;
-    if(index > 0) {
-      tomorrow.setDate(result.getDate() + index);
-      return formatDate(tomorrow);
-    }
-    else {
-      return formatDate(result);
-    }
+  const scrollToTime = () => {
+    setTimeout(() => {
+      elementRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 500)
   }
 
-  const formatDate = (date:any)=> {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  
-    const dayOfWeek = days[date.getDay()];
-    const month = months[date.getMonth()];
-    const dayOfMonth = date.getDate();
-  
-    return `${dayOfWeek}, ${month.slice(0,3)} ${dayOfMonth}`;
-  }
+  const getStartPosition = (time:string) => {  
+    let [hour] = time.split(":").map(Number);
+    let minutes = parseInt(time.split(":")[1]);
+
+    if(time.includes('am')) {
+      if(hour === 12) {
+        return getStartPixels(hour + 12, minutes);
+      }
+      return getStartPixels(hour, minutes);
+    }
+    else {
+      if(hour === 12) {
+        return getStartPixels(hour, minutes);
+      }
+      else if(hour < 12) {
+        return getStartPixels(hour + 12, minutes);
+      }
+    }
+  };
+
+  const getStartPixels = (hour:number, minutes:number) => { 
+    return Math.abs((((hour - 1) * 60) + minutes) + (hour * 1));
+  };
+
+  const getTimeSlotHeight = (appointment:any) => { 
+    return parseInt(appointment.duration);
+  };
 
   return (
     <>  
       <div className={styles.calendarContainer}>
         <div className={styles.timeColumn}>
-          {timeSlots.map((time:any, index:number) => (
-            <div key={index} className={styles.timeSlot}>
-              {time}
+          {timeSlots.map((time:any, index:number) => {
+            if(index === parseInt(format(new Date(), "H"))){
+              return(<div ref={elementRef} key={index} className={styles.timeSlot}>
+                {time}
+              </div>)
+            }
+            else{
+              return(<div key={index} className={styles.timeSlot}>
+                {time}
+              </div>)
+            }
+          })}
+        </div>
+        <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[0], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
             </div>
           ))}
-        </div>
-        <div className={styles['small-col']}>
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[1], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
+            </div>
+          ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[2], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
+            </div>
+          ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[3], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
+            </div>
+          ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[4], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
+            </div>
+          ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[5], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
+            </div>
+          ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles['small-col']}>
+        {date && 
+          appointments
+          .filter((app:any) => app.date === format(daysOfWeek[6], 'MMMM dd, yyyy'))
+          .map((appointment:any) => (
+            <div
+              key={appointment.id}
+              className={styles.appointment}
+              style={{
+                top: `${getStartPosition(appointment.startTime)}px`,
+                height: getTimeSlotHeight(appointment),
+              }}
+            >
+              <div className={styles.appointmentInfoCon}>
+                hello
+              </div>
+              <div>
+                {appointment.startTime} - {appointment.endTime}
+              </div>
+            </div>
+          ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}

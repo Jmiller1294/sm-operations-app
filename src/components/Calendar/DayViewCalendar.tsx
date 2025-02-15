@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./Calendar.module.css";
 import { BsThreeDots } from "react-icons/bs";
 import { format } from 'date-fns';
@@ -7,9 +7,11 @@ import { format } from 'date-fns';
 const DayViewCalendar = ({appointments, date}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const numbers = Array.from(Array(24).keys()); 
+  const elementRef = useRef<any>();
 
   useEffect(() => {
     createTimeSlots();
+    scrollToTime();
   },[]);
 
   const createTimeSlots = () => {
@@ -29,6 +31,12 @@ const DayViewCalendar = ({appointments, date}:any) => {
       }
     }
     setTimeSlots(times);
+  }
+
+  const scrollToTime = () => {
+    setTimeout(() => {
+      elementRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 500)
   }
 
   const getStartPosition = (time:string) => {  
@@ -63,77 +71,93 @@ const DayViewCalendar = ({appointments, date}:any) => {
     <>  
       <div className={styles.calendarContainer}>
         <div className={styles.timeColumn}>
-          {timeSlots.map((time:any, index:number) => (
-            <div key={index} className={styles.timeSlot}>
-              {time}
-            </div>
-          ))}
+          {timeSlots.map((time:any, index:number) => {
+            if(index === parseInt(format(new Date(), "H"))) {
+              return(<div ref={elementRef} key={index} className={styles.timeSlot}>
+                {time}
+              </div>)
+            }
+            else {
+              return(<div key={index} className={styles.timeSlot}>
+                {time}
+              </div>)
+            }
+          })}
         </div>
         <div className={styles.col}>
-          {date && appointments.filter((app:any) => app.calendarID === 1 && app.date === format(date, 'MMMM dd, yyyy')).map((appointment:any) => (
-            <div
-              key={appointment.id}
-              className={styles.appointment}
-              style={{
-                top: `${getStartPosition(appointment.startTime)}px`,
-                height: getTimeSlotHeight(appointment),
-              }}
-            >
-              <div className={styles.appointmentInfoCon}>
-                <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                <span className={styles.appointmentType}>{appointment.type}</span>
-                <BsThreeDots fontSize={24}/>
+          {date && 
+            appointments
+            .filter((app:any) => app.calendarID === 1 && app.date === format(date, 'MMMM dd, yyyy'))
+            .map((appointment:any) => (
+              <div
+                key={appointment.id}
+                className={styles.appointment}
+                style={{
+                  top: `${getStartPosition(appointment.startTime)}px`,
+                  height: getTimeSlotHeight(appointment),
+                }}
+              >
+                <div className={styles.appointmentInfoCon}>
+                  <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+                  <span className={styles.appointmentType}>{appointment.type}</span>
+                  <BsThreeDots fontSize={24}/>
+                </div>
+                <div>
+                  {appointment.startTime} - {appointment.endTime}
+                </div>
               </div>
-              <div>
-                {appointment.startTime} - {appointment.endTime}
-              </div>
-            </div>
           ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles.col}>
-          {date && appointments.filter((app:any) => app.calendarID === 2 && app.date === format(date, 'MMMM dd, yyyy')).map((appointment:any) => (
-            <div
-              key={appointment.id}
-              className={styles.appointment}
-              style={{
-                top: `${getStartPosition(appointment.startTime)}px`,
-                height: getTimeSlotHeight(appointment),
-              }}
-            >
-              <div className={styles.appointmentInfoCon}>
-                <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                <div>{appointment.type}</div>
+          {date && 
+            appointments
+            .filter((app:any) => app.calendarID === 2 && app.date === format(date, 'MMMM dd, yyyy'))
+            .map((appointment:any) => (
+              <div
+                key={appointment.id}
+                className={styles.appointment}
+                style={{
+                  top: `${getStartPosition(appointment.startTime)}px`,
+                  height: getTimeSlotHeight(appointment),
+                }}
+              >
+                <div className={styles.appointmentInfoCon}>
+                  <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+                  <div>{appointment.type}</div>
+                </div>
+                <div>
+                  {appointment.startTime} - {appointment.endTime}
+                </div>
               </div>
-              <div>
-                {appointment.startTime} - {appointment.endTime}
-              </div>
-            </div>
           ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>
           ))}
         </div>
         <div className={styles.col}>
-          {date && appointments.filter((app:any) => app.calendarID === 3 && app.date === format(date, 'MMMM dd, yyyy')).map((appointment:any) => (
-            <div
-              key={appointment.id}
-              className={styles.appointment}
-              style={{
-                top: `${getStartPosition(appointment.startTime)}px`,
-                height: getTimeSlotHeight(appointment),
-              }}
-            >
-              <div className={styles.appointmentInfoCon}>
-                <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                <div>{appointment.type}</div>
+         {date && 
+            appointments
+            .filter((app:any) => app.calendarID === 3 && app.date === format(date, 'MMMM dd, yyyy'))
+            .map((appointment:any) => (
+              <div
+                key={appointment.id}
+                className={styles.appointment}
+                style={{
+                  top: `${getStartPosition(appointment.startTime)}px`,
+                  height: getTimeSlotHeight(appointment),
+                }}
+              >
+                <div className={styles.appointmentInfoCon}>
+                  <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+                  <div>{appointment.type}</div>
+                </div>
+                <div>
+                  {appointment.startTime} - {appointment.endTime}
+                </div>
               </div>
-              <div>
-                {appointment.startTime} - {appointment.endTime}
-              </div>
-            </div>
           ))}
           {numbers.map((index) => (
             <div key={index} className={styles.row}></div>

@@ -7,7 +7,7 @@ import DayViewCalendar from '../../components/Calendar/DayViewCalendar';
 import WeekViewCalendar from '../../components/Calendar/WeekViewCalendar';
 import MonthViewCalendar from '../../components/Calendar/MonthViewCalendar';
 import Modal from '../../components/Modal/Modal';
-import { addDays, addWeeks, eachDayOfInterval, format, startOfWeek, subDays, subWeeks } from 'date-fns';
+import { addDays, addMonths, addWeeks, eachDayOfInterval, format, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import Header from '../../components/Calendar/Header';
 
@@ -19,7 +19,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "July 2, 2013",
+    date: "Februrary 19, 2025",
     startTime: "1:00am",
     endTime: "5:15am",
     dateCreated: "June 17, 2013",
@@ -66,7 +66,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "February 11, 2025",
+    date: "February 19, 2025",
     startTime: "2:00pm",
     endTime: "5:15pm",
     dateCreated: "June 17, 2013",
@@ -113,7 +113,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "February 12, 2025",
+    date: "February 19, 2025",
     startTime: "1:00am",
     endTime: "11:15am",
     dateCreated: "June 17, 2013",
@@ -126,7 +126,7 @@ const appointments = [
     addonIDs: [
       1
     ],
-    duration: "60",
+    duration: "120",
     calendar: "My Calendar",
     calendarID: 2,
     canClientCancel: false,
@@ -160,7 +160,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "February 2, 2025",
+    date: "February 18, 2025",
     startTime: "11:15am",
     endTime: "11:15am",
     dateCreated: "June 17, 2013",
@@ -203,10 +203,6 @@ const appointments = [
   },
 ]
 
-const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
 const employees = [
   {
     name: 'Millieann',
@@ -233,37 +229,38 @@ const AppointmentsPage = () => {
   const [position, setPosition] = useState("left");
   const [calendarType, setCalendarType] = useState('day');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [date, setDate] = useState('');
-  const [showToday, setShowToday] = useState(true);
+  const [date, setDate] = useState(format(d, 'MMM dd, yyyy'));
   const [daysOfWeek, setDaysOfWeek] = useState<any>([]);
 
-  useEffect(() => {
-    setStartDate('day');
-  }, [])
 
   const renderCalendar = () => {
     switch (calendarType) {
       case 'day':
         return <DayViewCalendar appointments={appointments} date={date} />
       case 'week':
-        return <WeekViewCalendar appointments={appointments} /> 
+        return <WeekViewCalendar appointments={appointments} date={date} daysOfWeek={daysOfWeek} /> 
       case 'month':
-        return <MonthViewCalendar appointments={appointments} />
+        return <MonthViewCalendar appointments={appointments} date={date} />
       default:
         return null;
     }
   };
 
-  const setStartDate = (date:string) => {
-    if(date === 'day') {
+  const setStartDate = (dateType:string) => {
+    if(dateType === 'day') {
       const formattedDate = format(d, 'MMM dd, yyyy');
       setDate(formattedDate);
     }
-    if(date === 'week') {
+    if(dateType === 'week') {
       const startOfWeekDate = startOfWeek(d, { weekStartsOn: 1 });
-      const formattedDate = format(startOfWeekDate, 'MMM dd, yyyy');
+      const formattedDate = format(startOfWeekDate, 'MMM d, yyyy');
       setDate(`Week of ${formattedDate}`);
       getDaysOfWeek(formattedDate);
+    }
+    if(dateType === 'month') {
+      const startOfWeekDate = startOfWeek(d, { weekStartsOn: 1 });
+      const formattedDate = format(startOfWeekDate, 'MMMM, yyyy');
+      setDate(formattedDate);
     }
   }
 
@@ -274,9 +271,13 @@ const AppointmentsPage = () => {
     }
     if(calendarType === 'week') {
       const nextWeekStart = startOfWeek(subWeeks(date, 1), { weekStartsOn: 1 });
-      const formattedDate = format(nextWeekStart, 'MMM dd, yyyy');
+      const formattedDate = format(nextWeekStart, 'MMM d, yyyy');
       setDate(`Week of ${formattedDate}`);
       getDaysOfWeek(formattedDate);
+    }
+    if(calendarType === 'month') {
+      const formattedDate = format(subMonths(date, 1), 'MMMM, yyyy');
+      setDate(formattedDate);
     }
   };
 
@@ -287,9 +288,13 @@ const AppointmentsPage = () => {
     }
     if(calendarType === 'week') {
       const nextWeekStart = startOfWeek(addWeeks(date, 1), { weekStartsOn: 1 });
-      const formattedDate = format(nextWeekStart, 'MMM dd, yyyy');
+      const formattedDate = format(nextWeekStart, 'MMM d, yyyy');
       setDate(`Week of ${formattedDate}`);
       getDaysOfWeek(formattedDate);
+    }
+    if(calendarType === 'month') {
+      const formattedDate = format(addMonths(date, 1), 'MMMM, yyyy');
+      setDate(formattedDate);
     }
   };
 
@@ -307,6 +312,18 @@ const AppointmentsPage = () => {
       end: addDays(weekStart, 6) // Get the next 6 days to complete the week
     });
     setDaysOfWeek(weekDates);
+  }
+
+  const getCurrentDate = () => {
+    if(calendarType === 'day') {
+     setStartDate('day');
+    }
+    if(calendarType === 'week') {
+      setStartDate('week');
+    }
+    if(calendarType === 'month') {
+      setStartDate('month');
+    }
   }
 
 
@@ -332,9 +349,9 @@ const AppointmentsPage = () => {
             <span className={styles.calendarArrows} onClick={() => decreaseDate()}><IoIosArrowBack size={24} /></span>
             <span className={styles.calendarArrows} onClick={() => increaseDate()}><IoIosArrowForward size={24} /></span>
           </div>
-          <span className={styles.dateText}>{date}<span className={styles.todayText}> Today</span></span>
+          <span className={styles.dateText}>{date}<span className={styles.todayText}>{calendarType === 'day' ? 'Today' :  null}</span></span>
           <div className={styles.buttonsContainer}>
-            <button className={styles.todayButton} onClick={() => setStartDate('day')}>Today</button>
+            <button className={styles.todayButton} onClick={() => getCurrentDate()}>Today</button>
             <div className={styles.toggleCon}>
               <input
                 type="radio"
@@ -360,7 +377,7 @@ const AppointmentsPage = () => {
                 name="toggle"
                 className={styles.toggleIn}
                 checked={position === "right"}
-                onChange={() => {setPosition("right"), setCalendarType("month")}}
+                onChange={() => {setPosition("right"), setCalendarType("month"), setStartDate("month")}}
               />
               <label htmlFor="right" className={styles.toggleLab}><span style={position === "right" ? {color: '#ffffff'} : {color: '#000000'}}>Month</span></label>
               <div className={styles.toggleSlider} data-position={position}></div>
@@ -369,7 +386,7 @@ const AppointmentsPage = () => {
           </div>
         </div>
       </div>
-        <Header type={calendarType} employees={employees} daysOfWeek={daysOfWeek} />
+      <Header type={calendarType} employees={employees} daysOfWeek={daysOfWeek} />
       <>
        <div onClick={() => setIsModalOpen(false)}>{renderCalendar()}</div>
       </>
