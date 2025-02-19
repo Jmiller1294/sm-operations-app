@@ -10,6 +10,8 @@ import Modal from '../../components/Modal/Modal';
 import { addDays, addMonths, addWeeks, eachDayOfInterval, format, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import Header from '../../components/Calendar/Header';
+import NewAppointmentForm from '../../components/Forms/NewAppointmentForm';
+import AppointmentInfo from './AppointmentInfo';
 
 
 const appointments = [
@@ -19,7 +21,7 @@ const appointments = [
     lastName: "McTest",
     phone: "",
     email: "bob.mctest@example.com",
-    date: "Februrary 19, 2025",
+    date: "February 21, 2025",
     startTime: "1:00am",
     endTime: "5:15am",
     dateCreated: "June 17, 2013",
@@ -62,11 +64,11 @@ const appointments = [
   },
   {
     id: 2,
-    firstName: "Bob",
+    firstName: "Justin",
     lastName: "McTest",
     phone: "",
-    email: "bob.mctest@example.com",
-    date: "February 19, 2025",
+    email: "justin.mctest@example.com",
+    date: "February 20, 2025",
     startTime: "2:00pm",
     endTime: "5:15pm",
     dateCreated: "June 17, 2013",
@@ -111,7 +113,7 @@ const appointments = [
     id: 3,
     firstName: "Bob",
     lastName: "McTest",
-    phone: "",
+    phone: "917-999-2311",
     email: "bob.mctest@example.com",
     date: "February 19, 2025",
     startTime: "1:00am",
@@ -231,16 +233,30 @@ const AppointmentsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState(format(d, 'MMM dd, yyyy'));
   const [daysOfWeek, setDaysOfWeek] = useState<any>([]);
+  const [formType, setFormType] = useState('');
+  const [modalType, setModalType] = useState('');
+  const [data, setData] = useState({});
 
 
   const renderCalendar = () => {
     switch (calendarType) {
       case 'day':
-        return <DayViewCalendar appointments={appointments} date={date} />
+        return <DayViewCalendar appointments={appointments} date={date} open={toggleModal} />
       case 'week':
-        return <WeekViewCalendar appointments={appointments} date={date} daysOfWeek={daysOfWeek} /> 
+        return <WeekViewCalendar appointments={appointments} date={date} daysOfWeek={daysOfWeek} open={toggleModal}/> 
       case 'month':
-        return <MonthViewCalendar appointments={appointments} date={date} />
+        return <MonthViewCalendar appointments={appointments} date={date} open={toggleModal}/>
+      default:
+        return null;
+    }
+  };
+
+  const renderModalContent = () => {
+    switch (modalType) {
+      case 'new appointment':
+        return <NewAppointmentForm data={data} onClose={toggleModal} />
+      case 'appointment info':
+        return <AppointmentInfo data={data} onClose={toggleModal} />
       default:
         return null;
     }
@@ -298,7 +314,13 @@ const AppointmentsPage = () => {
     }
   };
 
-  const toggleModal = () => {
+  const toggleModal = (data:any, modalType:string) => {
+    if(data !== null) {
+      setData(appointments[data.id - 1]);
+      setFormType(data.type);
+      setModalType(data.type)
+    }
+    else setModalType(modalType);
     setIsModalOpen(!isModalOpen);
   };
 
@@ -325,7 +347,6 @@ const AppointmentsPage = () => {
       setStartDate('month');
     }
   }
-
 
   return (
     <div className={styles.container}>
@@ -382,17 +403,16 @@ const AppointmentsPage = () => {
               <label htmlFor="right" className={styles.toggleLab}><span style={position === "right" ? {color: '#ffffff'} : {color: '#000000'}}>Month</span></label>
               <div className={styles.toggleSlider} data-position={position}></div>
             </div>
-            <button onClick={() => toggleModal()}  className={styles.appointmentButton}><FaPlus />New Appointment</button>
+            <button  className={styles.appointmentButton} onClick={() => toggleModal(null, 'new appointment')}><FaPlus />New Appointment</button>
           </div>
         </div>
       </div>
       <Header type={calendarType} employees={employees} daysOfWeek={daysOfWeek} />
       <>
-       <div onClick={() => setIsModalOpen(false)}>{renderCalendar()}</div>
+       <div>{renderCalendar()}</div>
       </>
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
-        <h2>Side Modal Content</h2>
-        <p>This is the content of the side modal.</p>
+        {renderModalContent()}
       </Modal>
     </div>
   )

@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 
 const tableColumns = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
 
-const MonthViewCalendar = ({appointments, date}:any) => {
+const MonthViewCalendar = ({appointments, date, open}:any) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [calendarGrid, setCalendarGrid] = useState<any>([]);
   const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
@@ -58,7 +58,7 @@ const MonthViewCalendar = ({appointments, date}:any) => {
                     <div className={styles.dayText}>{day ? day : ""}</div>
                     {appointments.map((app:any, ind:any) => {
                       if(format(app.date, 'MMM') === format(date, 'MMM')&&day === parseInt(format(app.date, 'd'))) {
-                        return(<p className={styles.appTypeText} key={ind}>{app.startTime} {app.type}</p>)
+                        return(<div className={styles.appTypeText} key={ind} onClick={open}><div className={styles.circle}></div>{app.startTime} {app.type}</div>)
                       }
                     })}
                   </div>

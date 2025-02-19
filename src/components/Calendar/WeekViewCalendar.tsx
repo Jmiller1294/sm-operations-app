@@ -1,10 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from "./Calendar.module.css";
-import {startOfWeek, endOfWeek, format} from 'date-fns';
+import {startOfWeek, endOfWeek, format, hoursToMinutes, getMinutes, getHours} from 'date-fns';
 
 
-const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
+const WeekViewCalendar = ({appointments, date, daysOfWeek, open}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
+  const [lineHeight, setLineHeight] = useState(0);
+  const [dotHeight, setDotHeight] = useState(0);
   const numbers = Array.from(Array(24).keys()); 
   const elementRef = useRef<any>();
 
@@ -12,6 +14,23 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
     createTimeSlots();
     scrollToTime();
   },[]);
+
+  useEffect(() => {
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
+      if(lineHeight % 60 === 0) {
+        setDotHeight(dotHeight + 2);
+        setLineHeight(dotHeight + 2);
+      }
+      else {
+        setDotHeight(dotHeight + 1);
+        setLineHeight(dotHeight + 1);
+      }
+    }, 60000);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+}, [dotHeight, lineHeight]);
 
   const createTimeSlots = () => {
     let times = [];
@@ -33,6 +52,10 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
   }
 
   const scrollToTime = () => {
+    const minutes = hoursToMinutes(getHours(new Date()));
+    const halfMinutes = getMinutes(new Date());
+    setDotHeight((minutes - 60) + halfMinutes + (1 * getHours(new Date())));
+    setLineHeight((minutes - 60) + halfMinutes + (1 * getHours(new Date())));
     setTimeout(() => {
       elementRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 500)
@@ -69,6 +92,20 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
   return (
     <>  
       <div className={styles.calendarContainer}>
+      <div 
+          className={styles.timeLine} 
+          style={{
+            top: `${lineHeight}px`
+          }}
+        >
+        </div>
+        <div 
+          className={styles.timeDot}
+          style={{
+            top: `${dotHeight}px`
+          }}
+        >
+        </div>
         <div className={styles.timeColumn}>
           {timeSlots.map((time:any, index:number) => {
             if(index === parseInt(format(new Date(), "H"))){
@@ -95,6 +132,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello
@@ -120,6 +158,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello
@@ -145,6 +184,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello
@@ -170,6 +210,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello
@@ -195,6 +236,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello
@@ -220,6 +262,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello
@@ -245,6 +288,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek}:any) => {
                 top: `${getStartPosition(appointment.startTime)}px`,
                 height: getTimeSlotHeight(appointment),
               }}
+              onClick={open}
             >
               <div className={styles.appointmentInfoCon}>
                 hello

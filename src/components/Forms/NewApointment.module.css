@@ -1,0 +1,7 @@
+.close-button {
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  justify-self: flex-start;
+}
