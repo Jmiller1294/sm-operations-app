@@ -3,13 +3,12 @@ import styles from "./Calendar.module.css";
 import { BsThreeDots } from "react-icons/bs";
 import { format, getHours, getMinutes, hoursToMinutes } from 'date-fns';
 
-const calendars = ['justin', 'milly', 'shine masters'];
 
-const DayViewCalendar = ({appointments, date, open}:any) => {
+const DayViewCalendar = ({appointments, date, open, employees}:any) => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const [lineHeight, setLineHeight] = useState(0);
   const [dotHeight, setDotHeight] = useState(0);
-  const numbers = Array.from(Array(24).keys()); 
+  const numbers = Array.from(Array(25).keys()); 
   const elementRef = useRef<any>();
 
 
@@ -57,8 +56,9 @@ const DayViewCalendar = ({appointments, date, open}:any) => {
   const scrollToTime = () => {
     const minutes = hoursToMinutes(getHours(new Date()));
     const halfMinutes = getMinutes(new Date());
-    setDotHeight((minutes - 60) + halfMinutes + (1 * getHours(new Date())));
-    setLineHeight((minutes - 60) + halfMinutes + (1 * getHours(new Date())));
+    console.log(minutes, halfMinutes)
+    setDotHeight(minutes + halfMinutes);
+    setLineHeight(minutes + halfMinutes);
     setTimeout(() => {
       elementRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 500)
@@ -85,7 +85,7 @@ const DayViewCalendar = ({appointments, date, open}:any) => {
   };
 
   const getStartPixels = (hour:number, minutes:number) => { 
-    return Math.abs((((hour - 1) * 60) + minutes) + (hour * 1));
+    return Math.abs((((hour - 1) * 60) + minutes) + (hour * 1) + 60);
   };
 
   const getTimeSlotHeight = (appointment:any) => { 
@@ -94,7 +94,7 @@ const DayViewCalendar = ({appointments, date, open}:any) => {
 
   function handleClick(id:any) {
     open(id);
-  }
+  };
 
   return (
     <>  
@@ -127,88 +127,41 @@ const DayViewCalendar = ({appointments, date, open}:any) => {
             }
           })}
         </div>
-        <div className={styles.col}>
-          {date && 
-            appointments
-            .filter((app:any) => app.calendarID === 1 && app.date === format(date, 'MMMM dd, yyyy'))
-            .map((appointment:any) => (
-              <div
-                key={appointment.id}
-                className={styles.appointment}
-                style={{
-                  top: `${getStartPosition(appointment.startTime)}px`,
-                  height: getTimeSlotHeight(appointment),
-                }}
-                onClick={() => handleClick({id: appointment.id, type: 'appointment info'})}
-              >
-                <div className={styles.appointmentInfoCon}>
-                  <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                  <span className={styles.appointmentType}>{appointment.type}</span>
-                  <span className={styles.appointmentType}>{appointment.type}</span>
+        {employees.map((employee:any, idx:number) => {
+          return(
+            <div 
+              className={styles.col}
+              key={idx}
+            >
+            {date && 
+              appointments
+              .filter((app:any) => app.calendar === employee.name && app.date === format(date, 'MMMM dd, yyyy'))
+              .map((appointment:any) => (
+                <div
+                  key={appointment.id}
+                  className={styles.appointment}
+                  style={{
+                    top: `${getStartPosition(appointment.startTime)}px`,
+                    height: getTimeSlotHeight(appointment),
+                  }}
+                  onClick={() => handleClick({id: appointment.id, type: 'appointment info'})}
+                >
+                  <div className={styles.appointmentInfoCon}>
+                    <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+                    <span className={styles.appointmentType}>{appointment.type}</span>
+                  </div>
+                  <div>
+                    {appointment.startTime} - {appointment.endTime}
+                    
+                  </div>
                 </div>
-                <div>
-                  {appointment.startTime} - {appointment.endTime}
-                </div>
-              </div>
-          ))}
-          {numbers.map((index) => (
-            <div key={index} className={styles.row}></div>
-          ))}
-        </div>
-        <div className={styles.col}>
-          {date && 
-            appointments
-            .filter((app:any) => app.calendarID === 2 && app.date === format(date, 'MMMM dd, yyyy'))
-            .map((appointment:any) => (
-              <div
-                key={appointment.id}
-                className={styles.appointment}
-                style={{
-                  top: `${getStartPosition(appointment.startTime)}px`,
-                  height: getTimeSlotHeight(appointment),
-                }}
-                onClick={() => handleClick({id: appointment.id, type: 'appointment info'})}
-              >
-                <div className={styles.appointmentInfoCon}>
-                  <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                  <div>{appointment.type}</div>
-                </div>
-                <div>
-                  {appointment.startTime} - {appointment.endTime}
-                </div>
-              </div>
-          ))}
-          {numbers.map((index) => (
-            <div key={index} className={styles.row}></div>
-          ))}
-        </div>
-        <div className={styles.col}>
-         {date && 
-            appointments
-            .filter((app:any) => app.calendarID === 3 && app.date === format(date, 'MMMM dd, yyyy'))
-            .map((appointment:any) => (
-              <div
-                key={appointment.id}
-                className={styles.appointment}
-                style={{
-                  top: `${getStartPosition(appointment.startTime)}px`,
-                  height: getTimeSlotHeight(appointment),
-                }}
-                onClick={() => handleClick({id: appointment.id, type: 'appointment info'})}
-              >
-                <div className={styles.appointmentInfoCon}>
-                  <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                  <div>{appointment.type}</div>
-                </div>
-                <div>
-                  {appointment.startTime} - {appointment.endTime}
-                </div>
-              </div>
-          ))}
-          {numbers.map((index) => (
-            <div key={index} className={styles.row}></div>
-          ))}
-        </div>
+            ))}
+            {numbers.map((index) => (
+              <div key={index} className={styles.row}></div>
+            ))}
+          </div>
+          )
+        })}
       </div>
     </>
   );

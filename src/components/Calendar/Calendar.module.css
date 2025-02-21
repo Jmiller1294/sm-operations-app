@@ -1,9 +1,10 @@
 .calendarContainer {
   display: flex;
   width: 100%;
-  height: 220vh;
+  height: 1525px;
   margin-top: 120px;
   position: relative;
+  padding-top: 1px;
 }
 
 .timeColumn {
@@ -11,9 +12,8 @@
   height: fit-content;
   background: #f5f5f5;
   text-align: center;
-  padding-top: 10px;
   font-size: 12px;
-  border-right: 1px solid #c4c4c4;
+  margin-top: 52px;
 }
 
 .timeSlot {
@@ -41,7 +41,6 @@
   display: flex;
   flex-direction: column;
   width: 32.8%;
-  margin-top: 16px;
 }
 
 .small-col{
@@ -49,7 +48,6 @@
   display: flex;
   flex-direction: column;
   width: 14%;
-  margin-top: 16px;
 }
 
 .row{
@@ -57,7 +55,7 @@
   flex-direction:row;
   height: 60px;
   border-top: 1px solid #c4c4c4;
-  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
 }
 
 .appointmentName{
@@ -203,7 +201,6 @@
   position: absolute;
   height: 12px;
   margin-left: -6.5px;
-  margin-top: 10px;
   width: 12px;
   z-index: 5;
   left: 85px;
@@ -216,7 +213,7 @@
   left: 82px;
   right: 0;
   pointer-events: none;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .circle{

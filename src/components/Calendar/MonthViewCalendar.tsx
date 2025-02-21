@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Calendar.module.css';
-import { format } from 'date-fns';
+import { format, getDay, getDaysInMonth } from 'date-fns';
 
 
 const tableColumns = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
 
 const MonthViewCalendar = ({appointments, date, open}:any) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
   const [calendarGrid, setCalendarGrid] = useState<any>([]);
-  const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-  const totalDays = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+  const totalDays = getDaysInMonth(date);
   const daysArray = Array.from({ length: totalDays }, (_, i) => i + 1);
 
 
   useEffect(() => {
     createCalendarGrid();
-  }, []);
+  }, [date]);
 
   const createCalendarGrid = () => {
-    const startDay = firstDay.getDay() - 1;
-    let week = Array(startDay).fill(null);
+    const startDay = getDay(date) - 1;
+    let week: any[] = [];
+    console.log(startDay)
+    if(startDay < 0) week = [];
+    else week = Array(startDay).fill(null);
     let grid:any = [];
 
     daysArray.forEach((day) => {

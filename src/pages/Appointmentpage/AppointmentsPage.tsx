@@ -22,7 +22,7 @@ const appointments = [
     phone: "",
     email: "bob.mctest@example.com",
     date: "February 21, 2025",
-    startTime: "1:00am",
+    startTime: "3:00am",
     endTime: "5:15am",
     dateCreated: "June 17, 2013",
     datetime: "2013-07-02T10:15:00-0700",
@@ -35,7 +35,7 @@ const appointments = [
       1
     ],
     duration: "480",
-    calendar: "My Calendar",
+    calendar: "Justin",
     calendarID: 1,
     canClientCancel: false,
     canClientReschedule: false,
@@ -82,7 +82,7 @@ const appointments = [
       1
     ],
     duration: "480",
-    calendar: "My Calendar",
+    calendar: "Millieann",
     calendarID: 1,
     canClientCancel: false,
     canClientReschedule: false,
@@ -129,7 +129,7 @@ const appointments = [
       1
     ],
     duration: "120",
-    calendar: "My Calendar",
+    calendar: "Justin",
     calendarID: 2,
     canClientCancel: false,
     canClientReschedule: false,
@@ -176,7 +176,7 @@ const appointments = [
       1
     ],
     duration: "120",
-    calendar: "My Calendar",
+    calendar: "Shine Masters",
     calendarID: 3,
     canClientCancel: false,
     canClientReschedule: false,
@@ -241,7 +241,7 @@ const AppointmentsPage = () => {
   const renderCalendar = () => {
     switch (calendarType) {
       case 'day':
-        return <DayViewCalendar appointments={appointments} date={date} open={toggleModal} />
+        return <DayViewCalendar appointments={appointments} date={date} open={toggleModal} employees={employees}/>
       case 'week':
         return <WeekViewCalendar appointments={appointments} date={date} daysOfWeek={daysOfWeek} open={toggleModal}/> 
       case 'month':
@@ -403,7 +403,7 @@ const AppointmentsPage = () => {
               <label htmlFor="right" className={styles.toggleLab}><span style={position === "right" ? {color: '#ffffff'} : {color: '#000000'}}>Month</span></label>
               <div className={styles.toggleSlider} data-position={position}></div>
             </div>
-            <button  className={styles.appointmentButton} onClick={() => toggleModal(null, 'new appointment')}><FaPlus />New Appointment</button>
+            <button className={styles.appointmentButton} onClick={() => toggleModal(null, 'new appointment')}><FaPlus />New Appointment</button>
           </div>
         </div>
       </div>
