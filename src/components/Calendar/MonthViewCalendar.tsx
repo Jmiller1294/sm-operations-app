@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Calendar.module.css';
 import { format, getDay, getDaysInMonth } from 'date-fns';
+import { useOutletContext } from 'react-router-dom';
 
 
 const tableColumns = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
 
-const MonthViewCalendar = ({appointments, date, open}:any) => {
+const MonthViewCalendar = () => {
+  const { date, appointments, toggleModal } = useOutletContext<any>();
   const [calendarGrid, setCalendarGrid] = useState<any>([]);
   const totalDays = getDaysInMonth(date);
   const daysArray = Array.from({ length: totalDays }, (_, i) => i + 1);
-
+  
 
   useEffect(() => {
     createCalendarGrid();
@@ -18,7 +20,6 @@ const MonthViewCalendar = ({appointments, date, open}:any) => {
   const createCalendarGrid = () => {
     const startDay = getDay(date) - 1;
     let week: any[] = [];
-    console.log(startDay)
     if(startDay < 0) week = [];
     else week = Array(startDay).fill(null);
     let grid:any = [];
@@ -40,6 +41,10 @@ const MonthViewCalendar = ({appointments, date, open}:any) => {
     setCalendarGrid(grid);
   }
 
+  const handleClick = (id:any, type:any) => {
+    toggleModal(id, type);
+  };
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -59,7 +64,7 @@ const MonthViewCalendar = ({appointments, date, open}:any) => {
                     <div className={styles.dayText}>{day ? day : ""}</div>
                     {appointments.map((app:any, ind:any) => {
                       if(format(app.date, 'MMM') === format(date, 'MMM')&&day === parseInt(format(app.date, 'd'))) {
-                        return(<div className={styles.appTypeText} key={ind} onClick={open}><div className={styles.circle}></div>{app.startTime} {app.type}</div>)
+                        return(<div className={styles.appTypeText} key={ind} onClick={() => handleClick(app.id, 'appointment info')}><div className={styles.circle}></div>{app.startTime} {app.type}</div>)
                       }
                     })}
                   </div>

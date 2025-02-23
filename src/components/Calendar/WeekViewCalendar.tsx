@@ -1,31 +1,38 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from "./Calendar.module.css";
-import {startOfWeek, endOfWeek, format, hoursToMinutes, getMinutes, getHours} from 'date-fns';
+import {
+  startOfWeek, 
+  endOfWeek, 
+  format, 
+  hoursToMinutes, 
+  getMinutes, 
+  getHours 
+} from 'date-fns';
+import { IoPersonCircleSharp } from 'react-icons/io5';
+import { useOutletContext } from 'react-router-dom';
 
 
-const WeekViewCalendar = ({appointments, date, daysOfWeek, open}:any) => {
+const WeekViewCalendar = () => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const [lineHeight, setLineHeight] = useState(0);
   const [dotHeight, setDotHeight] = useState(0);
+  const [days, setDays] = useState<any>([]);
   const numbers = Array.from(Array(25).keys()); 
   const elementRef = useRef<any>();
+  const { daysOfWeek, date, appointments, toggleModal } = useOutletContext<any>();
+
 
   useEffect(() => {
     createTimeSlots();
     scrollToTime();
-  },[]);
+    setDays(daysOfWeek);
+  },[daysOfWeek]);
 
   useEffect(() => {
     //Implementing the setInterval method
     const interval = setInterval(() => {
-      if(lineHeight % 60 === 0) {
-        setDotHeight(dotHeight + 1);
-        setLineHeight(dotHeight + 1);
-      }
-      else {
-        setDotHeight(dotHeight + 1);
-        setLineHeight(dotHeight + 1);
-      }
+      setDotHeight(dotHeight + 1);
+      setLineHeight(lineHeight + 1);
     }, 60000);
 
     //Clearing the interval
@@ -54,8 +61,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek, open}:any) => {
   const scrollToTime = () => {
     const minutes = hoursToMinutes(getHours(new Date()));
     const halfMinutes = getMinutes(new Date());
-    console.log(minutes, halfMinutes)
-    setDotHeight(minutes + halfMinutes);
+    setDotHeight((minutes + halfMinutes) - 5);
     setLineHeight(minutes + halfMinutes);
     setTimeout(() => {
       elementRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -83,15 +89,15 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek, open}:any) => {
   };
 
   const getStartPixels = (hour:number, minutes:number) => { 
-    return Math.abs((((hour - 1) * 60) + minutes) + (hour * 1));
+    return Math.abs((((hour - 1) * 59) + minutes) + (hour * 1) + 59);
   };
 
   const getTimeSlotHeight = (appointment:any) => { 
-    return parseInt(appointment.duration);
+    return parseInt(appointment.duration) - 5;
   };
 
-  function handleClick(id:any) {
-    open(id);
+  const handleClick = (id:any, type:any) => {
+    toggleModal(id, type);
   };
 
   return (
@@ -141,7 +147,7 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek, open}:any) => {
                     top: `${getStartPosition(appointment.startTime)}px`,
                     height: getTimeSlotHeight(appointment),
                   }}
-                  onClick={() => handleClick({id: appointment.id, type: 'appointment info'})}
+                  onClick={() => handleClick(appointment.id, 'appointment info')}
                 >
                   <div className={styles.appointmentInfoCon}>
                     {appointment.firstName} {appointment.lastName}
@@ -163,3 +169,4 @@ const WeekViewCalendar = ({appointments, date, daysOfWeek, open}:any) => {
 }
 
 export default WeekViewCalendar
+

@@ -1,15 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./Calendar.module.css";
-import { BsThreeDots } from "react-icons/bs";
 import { format, getHours, getMinutes, hoursToMinutes } from 'date-fns';
+import { useLocation, useOutletContext, useNavigate } from "react-router-dom";
+import { IoPersonCircleSharp } from "react-icons/io5";
 
 
-const DayViewCalendar = ({appointments, date, open, employees}:any) => {
+const DayViewCalendar = () => {
   const [timeSlots, setTimeSlots] = useState<any>([]);
   const [lineHeight, setLineHeight] = useState(0);
   const [dotHeight, setDotHeight] = useState(0);
   const numbers = Array.from(Array(25).keys()); 
   const elementRef = useRef<any>();
+  const { appointments, date, employees, toggleModal } = useOutletContext<any>();
+
 
 
   useEffect(() => {
@@ -20,14 +23,8 @@ const DayViewCalendar = ({appointments, date, open, employees}:any) => {
   useEffect(() => {
     //Implementing the setInterval method
     const interval = setInterval(() => {
-      if(lineHeight % 60 === 0) {
-        setDotHeight(dotHeight + 2);
-        setLineHeight(dotHeight + 2);
-      }
-      else {
-        setDotHeight(dotHeight + 1);
-        setLineHeight(dotHeight + 1);
-      }
+      setDotHeight(dotHeight + 1);
+      setLineHeight(lineHeight + 1);
     }, 60000);
 
     //Clearing the interval
@@ -56,8 +53,7 @@ const DayViewCalendar = ({appointments, date, open, employees}:any) => {
   const scrollToTime = () => {
     const minutes = hoursToMinutes(getHours(new Date()));
     const halfMinutes = getMinutes(new Date());
-    console.log(minutes, halfMinutes)
-    setDotHeight(minutes + halfMinutes);
+    setDotHeight((minutes + halfMinutes) - 5);
     setLineHeight(minutes + halfMinutes);
     setTimeout(() => {
       elementRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -85,15 +81,15 @@ const DayViewCalendar = ({appointments, date, open, employees}:any) => {
   };
 
   const getStartPixels = (hour:number, minutes:number) => { 
-    return Math.abs((((hour - 1) * 60) + minutes) + (hour * 1) + 60);
+    return Math.abs((((hour - 1) * 59) + minutes) + (hour * 1) + 59);
   };
 
   const getTimeSlotHeight = (appointment:any) => { 
-    return parseInt(appointment.duration);
+    return parseInt(appointment.duration) - 5;
   };
 
-  function handleClick(id:any) {
-    open(id);
+  const handleClick = (id:any, type:any) => {
+    toggleModal(id, type);
   };
 
   return (
@@ -133,33 +129,32 @@ const DayViewCalendar = ({appointments, date, open, employees}:any) => {
               className={styles.col}
               key={idx}
             >
-            {date && 
-              appointments
-              .filter((app:any) => app.calendar === employee.name && app.date === format(date, 'MMMM dd, yyyy'))
-              .map((appointment:any) => (
-                <div
-                  key={appointment.id}
-                  className={styles.appointment}
-                  style={{
-                    top: `${getStartPosition(appointment.startTime)}px`,
-                    height: getTimeSlotHeight(appointment),
-                  }}
-                  onClick={() => handleClick({id: appointment.id, type: 'appointment info'})}
-                >
-                  <div className={styles.appointmentInfoCon}>
-                    <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
-                    <span className={styles.appointmentType}>{appointment.type}</span>
+              {date && 
+                appointments
+                .filter((app:any) => app.calendar === employee.name && app.date === format(date, 'MMMM dd, yyyy'))
+                .map((appointment:any) => (
+                  <div
+                    key={appointment.id}
+                    className={styles.appointment}
+                    style={{
+                      top: `${getStartPosition(appointment.startTime)}px`,
+                      height: getTimeSlotHeight(appointment),
+                    }}
+                    onClick={() => handleClick(appointment.id, 'appointment info')}
+                  >
+                    <div className={styles.appointmentInfoCon}>
+                      <span className={styles.appointmentName}>{appointment.firstName} {appointment.lastName}: &nbsp;</span>
+                      <span className={styles.appointmentType}>{appointment.type}</span>
+                    </div>
+                    <div>
+                      {appointment.startTime} - {appointment.endTime}
+                    </div>
                   </div>
-                  <div>
-                    {appointment.startTime} - {appointment.endTime}
-                    
-                  </div>
-                </div>
-            ))}
-            {numbers.map((index) => (
-              <div key={index} className={styles.row}></div>
-            ))}
-          </div>
+              ))}
+              {numbers.map((index) => (
+                <div key={index} className={styles.row}></div>
+              ))}
+            </div>
           )
         })}
       </div>
@@ -168,3 +163,5 @@ const DayViewCalendar = ({appointments, date, open, employees}:any) => {
 };
 
 export default DayViewCalendar;
+
+

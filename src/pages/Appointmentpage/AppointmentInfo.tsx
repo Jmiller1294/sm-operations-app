@@ -1,7 +1,13 @@
 import React from 'react';
 import styles from './AppointmentPage.module.css';
 
-const AppointmentInfo = ({data, onClose}:any) => {
+const AppointmentInfo = ({data, onClose, open}:any) => {
+
+  function handleClick(id:any, type:string) {
+    open(id, type);
+  };
+
+
   return ( 
     <div className={styles.appointmentInfoCon}>
       <div className={styles.appointmentButtonCon}>
@@ -9,7 +15,7 @@ const AppointmentInfo = ({data, onClose}:any) => {
           Close
         </button>
         <div className={styles.buttonContainer}>
-          <button className={styles.appointmentbtns}>Edit</button>
+          <button className={styles.appointmentbtns} onClick={() => handleClick(data.id, 'edit appointment')}>Edit</button>
           <button className={styles.appointmentbtns}>Reschedule</button>
           <button className={styles.appointmentbtns}>Cancel</button>
         </div>
