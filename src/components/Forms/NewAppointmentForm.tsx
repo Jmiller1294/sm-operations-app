@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './NewApointment.module.css';
+import styles from './Forms.module.css';
 
 const NewAppointmentForm = ({data, onClose}:any) => {
   return (

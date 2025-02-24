@@ -17,7 +17,7 @@ const AppointmentInfo = ({data, onClose, open}:any) => {
         <div className={styles.buttonContainer}>
           <button className={styles.appointmentbtns} onClick={() => handleClick(data.id, 'edit appointment')}>Edit</button>
           <button className={styles.appointmentbtns}>Reschedule</button>
-          <button className={styles.appointmentbtns}>Cancel</button>
+          <button className={`${styles.appointmentbtns} ${styles.red}`}>Cancel</button>
         </div>
       </div>
       <div className={styles.textContainer}>
@@ -30,19 +30,19 @@ const AppointmentInfo = ({data, onClose, open}:any) => {
           </div>
           <div style={{marginTop: '48px'}}>
             <h4>Appointment Info</h4>
-            <div style={{borderBottom: '1px solid rgb(225, 225, 225)', display: 'flex', flexDirection: 'row'}}>
+            <div className={styles.textCon}>
               <p>Email</p>
               <p style={{marginLeft: 'auto'}}>{data.email}</p>
             </div>
-            <div style={{borderBottom: '1px solid rgb(225, 225, 225)', display: 'flex', flexDirection: 'row'}}>
+            <div className={styles.textCon}>
               <p>Phone</p>
               <p style={{marginLeft: 'auto'}}>{data.phone}</p>
             </div>
-            <div style={{borderBottom: '1px solid rgb(225, 225, 225)', display: 'flex', flexDirection: 'row'}}>
+            <div className={styles.textCon}>
               <p>Location</p>
               <p style={{marginLeft: 'auto'}}>{data.location}</p>
             </div>
-            <div style={{borderBottom: '1px solid rgb(225, 225, 225)', display: 'flex', flexDirection: 'row'}}>
+            <div className={styles.textCon}>
               <p>Price</p>
               <p style={{marginLeft: 'auto'}}>${data.price}</p>
             </div>

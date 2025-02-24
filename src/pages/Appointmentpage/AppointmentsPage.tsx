@@ -273,7 +273,7 @@ const AppointmentsPage = () => {
       case 'appointment info':
         return <AppointmentInfo data={modalData} onClose={toggleModal} open={toggleModal} />
       case 'edit appointment':
-        return <EditAppointmentForm data={modalData} onClose={toggleModal} open={toggleModal}/>
+        return <EditAppointmentForm data={modalData} onClose={toggleModal} onSave={changeModalType} onCancel={changeModalType}/>
       default:
         return null;
     }
@@ -339,6 +339,12 @@ const AppointmentsPage = () => {
       setIsModalOpen(!isModalOpen);
     }
   };
+
+  const changeModalType = (id:any, modalType:string) => {
+    console.log('clicked');
+    setModalType(modalType);
+    setModalData(userData.appointments[id - 1]);
+  }
 
   const getDaysOfWeek = (currDate:string) => {
     
