@@ -27,6 +27,7 @@ const AppointmentInfo = ({data, onClose, open}:any) => {
             <p className={styles['appointment-info-text']}>{data.type}</p>
             <p>{data.startTime} - {data.endTime}</p>
             <p>{data.date} - {data.duration} mins</p>
+            <p>with {data.calendar}</p>
           </div>
           <div style={{marginTop: '48px'}}>
             <h4>Appointment Info</h4>

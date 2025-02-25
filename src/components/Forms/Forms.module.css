@@ -15,7 +15,7 @@
   border-bottom: 1px solid rgb(225, 225, 225);
 }
 
-.EditInfoCon{
+.editInfoCon{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -40,7 +40,7 @@
 .input-text{
   height: 34px;
   width: 50%;
-  padding: 6px 12px;
+  padding: 6px 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   font-size: 13px;
@@ -50,6 +50,7 @@
   border: 1px solid #ccc;
   height: 116px;
   width: 100%;
+  padding: 16px 10px;
 }
 
 .textContainer label{
@@ -76,6 +77,11 @@
   border-radius: 4px;
   padding-right: 14px;
   padding-left: 14px;
+}
+
+.black{
+  background-color: black;
+  color: #fff;
 }
 
 .button:hover{

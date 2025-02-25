@@ -1,0 +1,24 @@
+.accordion {
+  max-width: 600px;
+  margin: 0.5rem auto;
+}
+
+.accordion-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.accordion-title:hover {
+  
+}
+
+.accordion-title,
+.accordion-content {
+  padding: 1rem;
+}
+
+.accordion-content {
+  
+}

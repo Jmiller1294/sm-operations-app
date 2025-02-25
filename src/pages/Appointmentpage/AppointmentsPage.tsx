@@ -20,6 +20,7 @@ const userData = {
       firstName: "Bob",
       lastName: "McTest",
       phone: "",
+      address: '2222 1st street',
       email: "bob.mctest@example.com",
       date: "February 23, 2025",
       startTime: "3:00am",
@@ -30,6 +31,7 @@ const userData = {
       paid: "no",
       amountPaid: "0.00",
       type: "Regular Visit",
+      notes: "dsfsdfdfdsfdsfdfdfdfdfsd",
       appointmentTypeID: 1,
       addonIDs: [
         1
@@ -67,6 +69,7 @@ const userData = {
       firstName: "Justin",
       lastName: "McTest",
       phone: "",
+      address: '2222 1st street',
       email: "justin.mctest@example.com",
       date: "February 20, 2025",
       startTime: "2:00pm",
@@ -77,6 +80,7 @@ const userData = {
       paid: "no",
       amountPaid: "0.00",
       type: "Regular Visit",
+      notes: "dsfsdfdfdsfdsfdfdfdfdfsd",
       appointmentTypeID: 1,
       addonIDs: [
         1
@@ -114,6 +118,7 @@ const userData = {
       firstName: "Bob",
       lastName: "McTest",
       phone: "917-999-2311",
+      address: '2222 1st street',
       email: "bob.mctest@example.com",
       date: "February 19, 2025",
       startTime: "1:00am",
@@ -124,6 +129,7 @@ const userData = {
       paid: "no",
       amountPaid: "0.00",
       type: "Regular Visit",
+      notes: "dsfsdfdfdsfdsfdfdfdfdfsd",
       appointmentTypeID: 1,
       addonIDs: [
         1
@@ -161,6 +167,7 @@ const userData = {
       firstName: "Bob",
       lastName: "McTest",
       phone: "",
+      address: '2222 1st street',
       email: "bob.mctest@example.com",
       date: "February 18, 2025",
       startTime: "11:15am",
@@ -171,6 +178,7 @@ const userData = {
       paid: "no",
       amountPaid: "0.00",
       type: "Regular Visit",
+      notes: "dsfsdfdfdsfdsfdfdfdfdfsd",
       appointmentTypeID: 1,
       addonIDs: [
         1
